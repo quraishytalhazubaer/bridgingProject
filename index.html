@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dialogflow Query</title>
+</head>
+<body>
+  <h1>Ask a Question</h1>
+  <form action="/query" method="post">
+    <input type="text" name="query" placeholder="Enter your query" />
+    <button type="submit">Submit</button>
+  </form>
+  <div id="response"></div>
+  <script>
+    const form = document.querySelector('form');
+    const responseDiv = document.getElementById('response');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const query = event.target.elements['query'].value;
+      //const query = event.target.query.value;
+      const response = await fetch('/query', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({query}),
+      });
+      const text = await response.text();
+      responseDiv.innerHTML = `<p><strong>${text}</p>`;
+    });
+  </script>
+</body>
+</html>
