@@ -12,7 +12,6 @@ process.env.GOOGLE_APPLICATION_CREDENTIALS = "./generpbot-demo.json"
 
 
 
-
 // Handle user input and send it to Dialogflow
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -45,8 +44,6 @@ app.post('/query', async (req, res) => {
       console.log(responses)
       const result = responses[0].queryResult
       const fulfillmentMessages = result.fulfillmentMessages;
-      // console.log(`Reply: ${result.fulfillmentText}`)
-      // console.log(`Reply: ${result.fulfillmentMessages}`)
 
 
 
@@ -68,6 +65,7 @@ app.post('/query', async (req, res) => {
         </div>
       </div>
     `).join('');
+
 
     res.status(200).send(mergedResponse);
 
