@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const uuid = require('uuid');
 const dialogflow = require('@google-cloud/dialogflow');
+const fs = require('fs');
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = "./generpbot-demo.json";
 
@@ -53,6 +54,17 @@ app.post('/query', async (req, res) => {
     // Check the Django API response
     if (djangoApiResponse.data.result === 'success') {
       const ormObjectData = djangoApiResponse.data.data;
+      
+      const jsonString = JSON.stringify(ormObjectData, null, 2);
+      const filePath = 'data.json';
+
+      fs.writeFile(filePath, jsonString, 'utf8', (err) => {
+        if (err) {
+          console.error('Error writing JSON data to file:', err);
+        } else {
+          console.log('JSON data has been written to', filePath);
+        }
+      });
       // Use ormObjectData as needed
       console.log('ORM Object Data:', ormObjectData);
 
@@ -77,6 +89,42 @@ app.post('/query', async (req, res) => {
     });
   }
 });
+
+app.post('/bot', async (req, res) => {
+  const userMessage = req.body.message; // when the user's message is sent in the 'message' field
+
+  try {
+    const sessionId = uuid.v4();
+    const projectId = 'generpbot-qoyc';
+
+    const sessionClient = new dialogflow.SessionsClient();
+    const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
+
+    const request = {
+      session: sessionPath,
+      queryInput: {
+        text: {
+          text: userMessage,
+          languageCode: 'en-US',
+        },
+      },
+    };
+
+    const responses = await sessionClient.detectIntent(request);
+    const result = responses[0].queryResult;
+
+    const botResponse = result.fulfillmentText;
+    res.json({ response: botResponse });
+
+  } catch (error) {
+    console.log(`Error: ${error}`);
+
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
