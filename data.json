@@ -1,26 +1,26 @@
 [
   {
-    "bus_name": "S Alam Travels",
-    "From": "Dhaka",
-    "To": "Chittagong",
-    "Class": "Economy",
-    "nos": "50",
-    "rem": "50",
-    "price": "1500.00",
-    "date": "2022-05-31",
-    "time": "23:55:00",
+    "air_name": "Us Bangla",
+    "From": "Teknaf",
+    "To": "Tetulia",
+    "Class": "Business",
+    "nos": "75",
+    "rem": "75",
+    "price": "5000.00",
+    "date": "2022-06-30",
+    "time": "00:35:00",
     "id": 1
   },
   {
-    "bus_name": "Hanif",
+    "air_name": "Novo Air",
     "From": "Dhaka",
     "To": "Chittagong",
     "Class": "Economy",
-    "nos": "45",
-    "rem": "42",
-    "price": "1200.00",
-    "date": "2022-05-31",
-    "time": "22:00:00",
+    "nos": "75",
+    "rem": "75",
+    "price": "4000.00",
+    "date": "2023-09-09",
+    "time": "19:00:00",
     "id": 2
   }
 ]
